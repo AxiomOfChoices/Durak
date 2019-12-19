@@ -5,7 +5,7 @@ class Card:
     rank = (6,7,8,9,10,11,12,13,14)
 
     def __init__(self, suit, rank):
-        """
+        """ Initalizes a card
         suit: The suit of the card
         rank: The rank of the card
         """
