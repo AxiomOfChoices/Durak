@@ -101,9 +101,14 @@ class Board:
         # Adds the attacking card to the list of attacking
         self.Attacking_ranks.append(attacking_rank)
 
-    def defend(self, list_of_defense_indices):
+    def defend(self, list_of_defense_indices_and_cards):
         """Defends against an attack from the attacker"""
-        for
+        for defence in list_of_defense_indices_and_cards:
+            if not self.does_defend(self.Attack_zone[defence[0]], defence[1]):
+                raise ValueError("Cards don't defend")
+        cards_defended = [self.hand[i] for i in range(self.hand_size - 1) if i in indexes]
+        self.hand = [self.hand[i] for i in range(self.hand_size - 1) if i not in indexes]
+        return cards_played
 
 
     def get_available_moves(self, player_index):
