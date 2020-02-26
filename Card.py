@@ -2,7 +2,7 @@
 
 class Card:
     suits = ("spade", "heart", "diamond", "club")
-    rank = (6,7,8,9,10,11,12,13,14)
+    ranks = (6,7,8,9,10,11,12,13,14)
 
     def __init__(self, suit, rank):
         """ Initalizes a card
