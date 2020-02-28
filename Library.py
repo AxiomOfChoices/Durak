@@ -1,4 +1,5 @@
 import Card
+import random
 
 class Library:
     def __init__(self, number_of_decks):
@@ -19,21 +20,22 @@ class Library:
     def get_next_card(self):
         """Returns next card and removes it from the top of the library
         """
-        # TODO: add next card method
-        pass
-        # return next_card
+        if len(self.cards) == 0:  # If there are no more cards left
+            return None  # Return nothing
+        else:  # If there are
+            return self.cards.pop(len(self.cards)-1)  # Remove and return the last card
 
     def bottom_card(self):
         """Returns, without removing, the bottom card of the library
         """
-        # TODO: add bottom card checker method
-        pass
-        # return bottom_card
+        if len(self.cards) == 0:  # If there are no more cards left
+            return None  # Return nothing
+        else:  # If there are
+            return self.cards[0]  # Return the bottom card
 
     def shuffle_library(self):
         """Shuffles library
         """
-        # TODO: add deck shuffler method
-        pass
+        random.shuffle(self.cards)  # Shuffle the deck
 
 
