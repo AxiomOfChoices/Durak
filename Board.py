@@ -94,6 +94,7 @@ class Board:
         # Adds them to the board
         for card in attacking_cards:
             self.Attack_zone.append(card)
+            self.Attack_zone.append(None)
         # Sets current defender to the player on the left
         self.Current_defender = (self.Current_attacker+1) % self.Num_of_players
         # Sets the mode to defense mode
@@ -101,13 +102,47 @@ class Board:
         # Adds the attacking card to the list of attacking
         self.Attacking_ranks.append(attacking_rank)
 
+    def secondary_attack(self, list_of_card_indices):
+        """Initiates the second attack after the defender defended
+        list_of_card_indices: The list of attacking indices
+        """
+        # Checks if you are attacking with 0 cards
+        if len(list_of_card_indices) == 0:
+            raise ValueError("Can't Attack with 0 cards")
+        # Sets the rank of the attack
+        attacking_rank = self.Players[self.Current_attacker].hand[list_of_card_indices[0]]
+        # Checks if all the attacking cards have the same rank
+        for index in list_of_card_indices:
+            if self.Players[self.Current_attacker].hand[index] != attacking_rank:
+                raise ValueError("Can't attack with multiple cards of different ranks")
+        # Sets the attacking cards and removes them from the players hand
+        attacking_cards = self.Players[self.Current_attacker].play_cards(list_of_card_indices)
+        # Adds them to the board
+        for card in attacking_cards:
+            self.Attack_zone.append(card)
+            self.Attack_zone.append(None)
+        # Sets current defender to the player on the left
+        self.Current_defender = (self.Current_attacker + 1) % self.Num_of_players
+        # Sets the mode to defense mode
+        self.Mode = "D1"
+        # Adds the attacking card to the list of attacking
+        self.Attacking_ranks.append(attacking_rank)
+
     def defend(self, list_of_defense_indices_and_cards):
         """Defends against an attack from the attacker"""
+        # Checks if there are 0 defending cards
+        if len(list_of_defense_indices_and_cards) == 0:
+            # Raises exception
+            raise ValueError("Can't defend with 0 marks")
+        # For each of the defences in the defence
         for defence in list_of_defense_indices_and_cards:
+            # Check if the card defends the attacking card
             if not self.does_defend(self.Attack_zone[defence[0]], defence[1]):
+                # if it does not then raise value error
                 raise ValueError("Cards don't defend")
-        cards_defended = [self.hand[i] for i in range(self.hand_size - 1) if i in indexes]
-        self.hand = [self.hand[i] for i in range(self.hand_size - 1) if i not in indexes]
+        # plays the cards that are being defended with from the defender's hand
+        cards_played = self.Players[self.Current_defender].play_cards([y[0] for y in list_of_defense_indices_and_cards])
+        # returns the cards played
         return cards_played
 
 
@@ -120,11 +155,9 @@ class Board:
                 return None
 
         if self.Mode == "D1":
-            # TODO add first defense available moves
+            # TODO: add first defense available moves
             return None
 
         if self.Mode ==  "D2":
-
-
-
-
+            return None
+            # TODO: add second defense available moves
